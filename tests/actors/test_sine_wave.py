@@ -8,9 +8,19 @@ from tests.actors.fixtures import sine_wave
 def test_sine_wave_init_period():
     SineWave.init_period(1)
 
+    
+def test_sine_wave_init_period_error():
+    with pytest.raises(ValueError):
+        SineWave.init_period(-1)
+
 
 def test_sine_wave_init_frequency():
     SineWave.init_frequency(1)
+
+
+def test_sine_wave_init_frequency_error():
+    with pytest.raises(ValueError):
+        SineWave.init_frequency(-1)
 
 
 def test_sine_wave_getters(sine_wave):

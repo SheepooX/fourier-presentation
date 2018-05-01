@@ -39,3 +39,8 @@ def test_init_error():
         LineAxes(x_lim1=1, x_lim2=-1)
     with pytest.raises(ValueError):
         LineAxes(y_lim1=1, y_lim2=-1)
+
+
+def test_line_axes_interval():
+    assert LineAxes._valid_interval(10, 15)
+    assert not LineAxes._valid_interval(20, 15)

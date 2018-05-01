@@ -245,7 +245,8 @@ class LineAxes:
     def __repr__(self):  # pragma: no cover
         return "LineAxes(x_lim1={}, x_lim2={}, y_lim1={}, y_lim2={})".format(self.x_lim1, self.x_lim2, self.y_lim1, self.y_lim2)
 
-    def _valid_interval(self, a, b):
+    @staticmethod
+    def _valid_interval(a, b):
         """
         Validates an interval.
 

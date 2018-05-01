@@ -63,3 +63,8 @@ def test_sine_wave_frequency_error(sine_wave, value):
 def test_sine_wave_data_equal_length(sine_wave):
     data = sine_wave.data(x1=0, x2=5)
     assert len(data[0]) == len(data[1])
+
+
+def test_sine_wave_data_error_invalid_interval(sine_wave):
+    with pytest.raises(ValueError):
+        sine_wave.data(x1=1, x2=0)

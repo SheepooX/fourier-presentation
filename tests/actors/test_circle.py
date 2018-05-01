@@ -25,5 +25,5 @@ def test_circle_radius_error(circle):
 
 
 def test_circle_data_equal_length(circle):
-    data = circle.data
+    data = circle.data()
     assert len(data[0]) == len(data[1])

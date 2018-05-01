@@ -21,8 +21,7 @@ class Circle:
     
     def __repr__(self):  # pragma: no cover
         return "Circle(radius={}, x0={}, y0={})".format(self.radius, self.x0, self.y0)
-    
-    @property
+
     def data(self, step=default_step):
         """
         Returns x, y arrays of circle points.
@@ -102,6 +101,10 @@ class SineWave:
     
     def __repr__(self):  # pragma: no cover
         return "SineWave(angular_frequency={}, amplitude={}, x0={}, y0={})".format(self.angular_velocity, self.amplitude, self.x0, self.y0)
+    
+    def data(self, x1, y1, step=default_step):
+        l = np.arange(x1, y1 + step, step)
+        return l, self.amplitude * np.sin(self.angular_velocity * (l + self.x0) + self.y0)
 
     @property
     def angular_velocity(self):

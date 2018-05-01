@@ -1,9 +1,8 @@
 import pytest
+from numpy import pi
 
 from fourier.actors import SineWave
 from tests.actors.fixtures import sine_wave
-
-from numpy import pi
 
 
 def test_sine_wave_init_period():
@@ -62,5 +61,5 @@ def test_sine_wave_frequency_error(sine_wave, value):
 
 
 def test_sine_wave_data_equal_length(sine_wave):
-    data = sine_wave.data(x1=0, y1=5)
+    data = sine_wave.data(x1=0, x2=5)
     assert len(data[0]) == len(data[1])

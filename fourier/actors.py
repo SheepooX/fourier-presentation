@@ -18,7 +18,7 @@ class Circle:
         self.radius = radius
         self.x0 = x0
         self.y0 = y0
-    
+
     def __repr__(self):  # pragma: no cover
         return "Circle(radius={}, x0={}, y0={})".format(self.radius, self.x0, self.y0)
 
@@ -28,19 +28,19 @@ class Circle:
 
         Args:
             step (optional: Angle step of the calculation.
-        
+
         Returns: Tuple of two numpy arrays.
         """
         l = np.arange(0, 2 * np.pi + step, step)
         return np.cos(l), np.sin(l)
-    
+
     @property
     def radius(self):
         """
         Returns: Radius.
         """
         return self._radius
-    
+
     @radius.setter
     def radius(self, value):
         """
@@ -49,16 +49,18 @@ class Circle:
         Args:
             value: The new radius.
         """
-        if value < 0: raise ValueError("Radius of a circle cannot be negative: {}".format(value))
+        if value < 0:
+            raise ValueError(
+                "Radius of a circle cannot be negative: {}".format(value))
         self._radius = value
-    
+
     @property
     def x0(self):
         """
         Returns: x0
         """
         return self._x0
-    
+
     @x0.setter
     def x0(self, value):
         """
@@ -73,7 +75,7 @@ class Circle:
         Returns: y0
         """
         return self._y0
-    
+
     @y0.setter
     def y0(self, value):
         """
@@ -88,7 +90,7 @@ class SineWave:
     @classmethod
     def init_period(klass, period, amplitude=1, x0=0, y0=0):
         return klass(2 * np.pi / period, amplitude, x0, y0)
-    
+
     @classmethod
     def init_frequency(klass, frequency, amplitude=1, x0=0, y0=0):
         return klass(2 * np.pi * frequency, amplitude, x0, y0)
@@ -98,10 +100,10 @@ class SineWave:
         self.amplitude = amplitude
         self.x0 = x0
         self.y0 = y0
-    
+
     def __repr__(self):  # pragma: no cover
         return "SineWave(angular_frequency={}, amplitude={}, x0={}, y0={})".format(self.angular_velocity, self.amplitude, self.x0, self.y0)
-    
+
     def data(self, x1, y1, step=default_step):
         l = np.arange(x1, y1 + step, step)
         return l, self.amplitude * np.sin(self.angular_velocity * (l + self.x0) + self.y0)
@@ -109,29 +111,93 @@ class SineWave:
     @property
     def angular_velocity(self):
         return self._angular_velocity
-    
+
     @angular_velocity.setter
     def angular_velocity(self, value):
         if value <= 0:
-            raise ValueError("Angular velocity has to be positive: {}".format(value))
+            raise ValueError(
+                "Angular velocity has to be positive: {}".format(value))
         self._angular_velocity = value
-    
+
     @property
     def period(self):
         return 2 * np.pi / self.angular_velocity
-    
+
     @period.setter
     def period(self, value):
         if value <= 0:
             raise ValueError("Period has to be positive: {}".format(value))
         self.angular_velocity = 2 * np.pi / value
-    
+
     @property
     def frequency(self):
         return 1 / self.period
-    
+
     @frequency.setter
     def frequency(self, value):
         if value <= 0:
             raise ValueError("Frequency has to be positive: {}".format(value))
         self.period = 1 / value
+
+
+class LineAxes:
+
+    def __init__(self, x_lim1=-1, x_lim2=1, y_lim1=-1, y_lim2=1):
+        if self._valid_interval(x_lim1, x_lim2) and self._valid_interval(y_lim1, y_lim2):
+            self._x_lim1 = x_lim1
+            self._x_lim2 = x_lim2
+            self._y_lim1 = y_lim1
+            self._y_lim2 = y_lim2
+        else:
+            raise ValueError("The arguments do not satisfy: x_lim1 < x_lim2 OR y_lim1 < y_lim2. x_lim1={}, x_lim2={}, y_lim1={}, y_lim2={}"
+                             .format(x_lim1, x_lim2, y_lim1, y_lim2))
+
+    def __repr__(self):  # pragma: no cover
+        return "LineAxes(x_lim1={}, x_lim2={}, y_lim1={}, y_lim2={})".format(self.x_lim1, self.x_lim2, self.y_lim1, self.y_lim2)
+
+    def _valid_interval(self, a, b):
+        return a < b
+
+    @property
+    def x_lim1(self):
+        return self._x_lim1
+
+    @x_lim1.setter
+    def x_lim1(self, value):
+        if not self._valid_interval(value, self.x_lim2):
+            raise ValueError(
+                "Left x_lim1 has to be smaller than right x_lim2.")
+        self._x_lim1 = value
+
+    @property
+    def x_lim2(self):
+        return self._x_lim2
+
+    @x_lim2.setter
+    def x_lim2(self, value):
+        if not self._valid_interval(self.x_lim1, value):
+            raise ValueError(
+                "Left x_lim1 has to be smaller than right x_lim2.")
+        self._x_lim2 = value
+
+    @property
+    def y_lim1(self):
+        return self._y_lim1
+
+    @y_lim1.setter
+    def y_lim1(self, value):
+        if not self._valid_interval(value, self.y_lim2):
+            raise ValueError(
+                "Bottom y_lim1 has to be smaller than top y_lim2.")
+        self._y_lim1 = value
+
+    @property
+    def y_lim2(self):
+        return self._y_lim2
+
+    @y_lim2.setter
+    def y_lim2(self, value):
+        if not self._valid_interval(self.y_lim1, value):
+            raise ValueError(
+                "Bottom y_lim1 has to be smaller than top y_lim2.")
+        self._y_lim2 = value

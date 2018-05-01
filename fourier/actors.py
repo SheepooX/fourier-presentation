@@ -104,7 +104,11 @@ class SineWave:
             y0: Y shift.
         
         Returns: Instance of SineWave.
+
+        Raises: ValueError: Period must be positive.
         """
+        if period < 0:
+            raise ValueError("ValueError: Period must be positive.")
         return klass(2 * np.pi / period, amplitude, x0, y0)
 
     @classmethod
@@ -120,7 +124,11 @@ class SineWave:
             y0: Y shift.
         
         Returns: Instance of SineWave.
+
+        Raises: ValueError: Frequency must be positive.
         """
+        if frequency < 0:
+            raise ValueError("ValueError: Period must be positive.")
         return klass.init_period(1 / frequency, amplitude, x0, y0)
 
     def __init__(self, angular_velocity, amplitude=1, x0=0, y0=0):

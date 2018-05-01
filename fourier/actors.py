@@ -19,6 +19,9 @@ class Circle:
         self.x0 = x0
         self.y0 = y0
     
+    def __repr__(self):  # pragma: no cover
+        return "Circle(radius={}, x0={}, y0={})".format(self.radius, self.x0, self.y0)
+    
     @property
     def data(self, step=default_step):
         """
@@ -79,3 +82,53 @@ class Circle:
             value: The new y0.
         """
         self._y0 = value
+
+
+class SineWave:
+
+    @classmethod
+    def init_period(klass, period, amplitude=1, x0=0, y0=0):
+        return klass(2 * np.pi / period, amplitude, x0, y0)
+    
+    @classmethod
+    def init_frequency(klass, frequency, amplitude=1, x0=0, y0=0):
+        return klass(2 * np.pi * frequency, amplitude, x0, y0)
+
+    def __init__(self, angular_velocity, amplitude=1, x0=0, y0=0):
+        self.angular_velocity = angular_velocity
+        self.amplitude = amplitude
+        self.x0 = x0
+        self.y0 = y0
+    
+    def __repr__(self):  # pragma: no cover
+        return "SineWave(angular_frequency={}, amplitude={}, x0={}, y0={})".format(self.angular_velocity, self.amplitude, self.x0, self.y0)
+
+    @property
+    def angular_velocity(self):
+        return self._angular_velocity
+    
+    @angular_velocity.setter
+    def angular_velocity(self, value):
+        if value <= 0:
+            raise ValueError("Angular velocity has to be positive: {}".format(value))
+        self._angular_velocity = value
+    
+    @property
+    def period(self):
+        return 2 * np.pi / self.angular_velocity
+    
+    @period.setter
+    def period(self, value):
+        if value <= 0:
+            raise ValueError("Period has to be positive: {}".format(value))
+        self.angular_velocity = 2 * np.pi / value
+    
+    @property
+    def frequency(self):
+        return 1 / self.period
+    
+    @frequency.setter
+    def frequency(self, value):
+        if value <= 0:
+            raise ValueError("Frequency has to be positive: {}".format(value))
+        self.period = 1 / value

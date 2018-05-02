@@ -2,7 +2,7 @@ import pytest
 from numpy import pi
 
 from fourier.actors import SineWave
-from tests.actors.fixtures import sine_wave
+from tests.fixtures import sine_wave
 
 
 def test_sine_wave_init_period():

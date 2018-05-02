@@ -1,7 +1,7 @@
 import pytest
 
 from fourier.actors import Circle
-from tests.actors.fixtures import circle
+from tests.fixtures import circle
 
 
 def test_circle_properties(circle):

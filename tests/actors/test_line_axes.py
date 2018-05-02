@@ -1,7 +1,7 @@
 import pytest
 
 from fourier.actors import LineAxes
-from tests.actors.fixtures import line_axes
+from tests.fixtures import line_axes
 
 
 def test_line_axes_getters(line_axes):

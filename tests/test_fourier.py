@@ -11,6 +11,13 @@ def test_average_point_location():
     assert 3 == avg_loc[1]
 
 
+def test_average_length_error():
+    x = [1, 2, 3]
+    y = [1, 2, 3, 4]
+    with pytest.raises(ValueError):
+        average_point_location(x, y)
+
+
 def test_get_shape_error_winding_frequency(sine_wave):
     with pytest.raises(ValueError):
         get_shape(sine_wave, 0, 0, 1)

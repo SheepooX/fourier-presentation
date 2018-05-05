@@ -9,10 +9,11 @@ class Circle:
     Representation of a circle that calculates its points for plotting.
     """
 
-    def __init__(self, radius, x0, y0):
+    def __init__(self, radius, x0=0, y0=0):
         """
         Args:
             radius: Radius of the circle.
+            (optional)
             x0: X coordinate of the center.
             y0: Y coordinate of the center.
         """
@@ -143,6 +144,7 @@ class SineWave:
         self.amplitude = amplitude
         self.x0 = x0
         self.y0 = y0
+        self._set_last_calc(None, None)
 
     def __repr__(self):  # pragma: no cover
         return "SineWave(angular_frequency={}, amplitude={}, x0={}, y0={})".format(self.angular_velocity, self.amplitude, self.x0, self.y0)
@@ -163,7 +165,24 @@ class SineWave:
         if x1 > x2:
             raise ValueError("The left boundary is greater than the right boundary.")
         l = np.arange(x1, x2 + step, step)
-        return l, self.amplitude * np.sin(self.angular_velocity * (l + self.x0) + self.y0)
+        current_vals = (x1, x2, self.angular_velocity, self.amplitude, self.x0, self.y0)
+        if self.last_calc is not None:
+            if current_vals == self.last_values:
+                return self.last_calc
+        self._set_last_calc((l, self.amplitude * np.sin(self.angular_velocity * (l + self.x0) + self.y0)), current_vals)
+        return self.last_calc
+    
+    @property
+    def last_calc(self):
+        return self._last_calc
+    
+    @property
+    def last_values(self):
+        return self._last_values
+    
+    def _set_last_calc(self, last_calc, input_values):
+        self._last_values = input_values
+        self._last_calc = last_calc
 
     @property
     def angular_velocity(self):
@@ -252,6 +271,19 @@ class LineAxes:
 
     def __repr__(self):  # pragma: no cover
         return "LineAxes(x_lim1={}, x_lim2={}, y_lim1={}, y_lim2={})".format(self.x_lim1, self.x_lim2, self.y_lim1, self.y_lim2)
+
+    def data(self, colour='k'):
+        """
+        Args:
+            (optional)
+            colour: The matplotlib colour of the axes. Default is black.
+
+        Returns: Plottable tuple - .plot(*data).
+        """
+        return (
+            (self.x_lim1, self.x_lim2), (0, 0), colour,
+            (0, 0), (self.y_lim1, self.y_lim2), colour
+        )
 
     @staticmethod
     def _valid_interval(a, b):

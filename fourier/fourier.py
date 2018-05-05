@@ -4,6 +4,20 @@ import fourier.actors
 
 
 def average_point_location(x, y):
+    """
+    Calculates an average location of points.
+
+    Args:
+        x: X values.
+        y: Y values.
+
+    Returns: Tuple - X_avg, Y_avg.
+
+    Raises:
+        ValueError: The length of x-values != length of y-values.
+    """
+    if len(x) != len(y):
+        raise ValueError("The length of x-values != length of y-values.")
     return sum(x) / len(x), sum(y) / len(y)
 
 
@@ -31,5 +45,5 @@ def get_shape(sine_wave, winding_frequency, a, b, step=0.1):
         raise ValueError("The following condition must be true: a < b.")
     x = np.arange(a, b + step, step)
     omega = 2 * np.pi * winding_frequency
-    return sine_wave.data(a, b) * (np.sin(omega * x) + 1j * np.cos(omega * x))
-
+    shape = sine_wave.data(a, b, step=step)[1] * (np.sin(omega * x) + 1j * np.cos(omega * x))
+    return shape.real, shape.imag

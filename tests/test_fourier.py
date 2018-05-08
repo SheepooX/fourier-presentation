@@ -31,5 +31,5 @@ def test_get_shape_error_a_b(sine_wave):
 
 
 def test_get_shape_equal_len(sine_wave):
-    output = get_shape(sine_wave, 2, -1, 5)
-    assert len(output.real) == len(output.imag)
+    real, imag = get_shape(sine_wave, 2, -1, 5)
+    assert len(real) == len(imag)

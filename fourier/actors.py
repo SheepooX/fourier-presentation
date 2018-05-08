@@ -159,6 +159,8 @@ class SineWave:
             (optional)
             step: Step of calculations.
         
+        Returns: Tuple(x_values, y_values).
+        
         Raises:
             ValueError: The left boundary is greater than the right boundary.
         """
@@ -381,3 +383,30 @@ class LineAxes:
             raise ValueError(
                 "Bottom y_lim1 has to be smaller than top y_lim2.")
         self._y_lim2 = value
+
+
+class MultiSineWave(list):
+
+    def data(self, x1, x2, step=default_step):
+        """
+        Combine sine wave values
+
+        Args:
+            x1: Left boundary.
+            x2: Right boundary.
+            (optional)
+            step: Step of calculations.
+        
+        Returns: Tuple(x_values, y_values).
+        
+        Raises:
+            ValueError: The left boundary is greater than the right boundary.
+        """
+        if x1 > x2:
+            raise ValueError("The left boundary is greater than the right boundary.")
+        if self:
+            l = np.arange(x1, x2 + step, step)
+            data_gen = (wave.data(x1, x2, step)[1] for wave in self)
+            return l, sum(data_gen)
+        else:
+            return [], []

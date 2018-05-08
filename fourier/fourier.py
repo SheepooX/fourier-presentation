@@ -1,6 +1,6 @@
 import numpy as np
 
-import fourier.actors
+# from fourier.actors import Circle, LineAxes, SineWave
 
 
 def average_point_location(x, y):

@@ -1,6 +1,6 @@
 import pytest
 
-from fourier.actors import Circle, LineAxes, SineWave
+from fourier.actors import Circle, LineAxes, MultiSineWave, SineWave
 
 
 @pytest.fixture
@@ -25,3 +25,13 @@ def line_axes():
     Instance of LineAxes.
     """
     return LineAxes()
+
+
+@pytest.fixture
+def multi_sine_wave():
+    s1 = SineWave.init_frequency(1)
+    s2 = SineWave.init_frequency(2)
+    ms = MultiSineWave()
+    ms.append(s1)
+    ms.append(s2)
+    return ms

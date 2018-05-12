@@ -21,14 +21,14 @@ def main_window(show=True):
     circle = Circle(radius=1)
     circle_graph.plot(*circle.data())
 
-    wave1 = SineWave.init_frequency(1, y0=0)
+    wave1 = SineWave.init_frequency(3, y0=0)
     wave2 = SineWave.init_frequency(6, y0=0)
     wave3 = SineWave.init_frequency(3, amplitude=2, y0=0)
 
     wave = MultiSineWave()
     wave.append(wave1)
-    wave.append(wave2)
-    wave.append(wave3)
+    # wave.append(wave2)
+    # wave.append(wave3)
 
     sound_graph.plot(*wave.data(x1=0, x2=5, step=0.01))
 
@@ -42,11 +42,15 @@ def main_window(show=True):
     sound_graph.axis('equal')
     fourier_graph.axis('equal')
 
-    stop_freqs = [1, 3, 6, 12]
+    stop_freqs = [7, 12]
 
     def animate(i):  # pragma: no cover
         nonlocal shape_g, avg_point_g
-        winding_freq = 0.5 + i / 250
+        d = 250
+        winding_freq = 6 + i / d
+
+        if winding_freq - 1 / d % 1 == 0:
+            time.sleep(5)
 
         new_shape = get_shape(wave, winding_freq, 0, 3, step=0.0025)
         new_avg_point = average_point_location(*new_shape)
@@ -55,7 +59,7 @@ def main_window(show=True):
         avg_point_g.set_data([new_avg_point[0]], [new_avg_point[1]])
 
         if winding_freq in stop_freqs:
-            time.sleep(5)
+            print(winding_freq)
             plt.savefig("D:\\img_{!r}_{!r}.png".format(wave, winding_freq))
 
         return shape_g, avg_point_g

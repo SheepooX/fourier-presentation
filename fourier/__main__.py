@@ -1,4 +1,4 @@
 
 if __name__ == '__main__':  # pragma: no cover
-    import fourier.main_window
-    fourier.main_window.main_window()
+    import fourier.gui_start
+    fourier.gui_start.run()
